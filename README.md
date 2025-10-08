@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JRH ERMAC Car Rental Booking</title>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #fff9f0;
+      margin: 0;
+      padding: 0;
+      color: #222;
+    }
+
+    header {
+      background-color: #b30000;
+      color: white;
+      padding: 1rem 0;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    h2 {
+      font-weight: normal;
+      color: #ffcc00;
+      margin-top: 0.5rem;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 1rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 0.5rem;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #b30000;
+      outline: none;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      background-color: #ffcc00;
+      color: #000;
+      font-size: 1.2rem;
+      font-weight: 700;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ffb300;
+    }
+
+    .car-section {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .car-section img {
+      width: 100%;
+      max-width: 600px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .success {
+      text-align: center;
+      color: green;
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+
+    .error {
+      text-align: center;
+      color: red;
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.6rem;
+      }
+      h2 {
+        font-size: 1rem;
+      }
+      .container {
+        margin: 1rem;
+        padding: 1.2rem;
+      }
+      input, select, textarea {
+        font-size: 0.95rem;
+        padding: 0.6rem;
+      }
+      button {
+        font-size: 1rem;
+        padding: 0.7rem;
+      }
+      .car-section img {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 0.8rem 0;
+      }
+      h1 {
+        font-size: 1.4rem;
+      }
+      h2 {
+        font-size: 0.9rem;
+      }
+      .container {
+        padding: 1rem;
+      }
+      label {
+        font-size: 0.9rem;
+      }
+      button {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>JRH ERMAC Car Rental Booking</h1>
+    <h2>Book your perfect escape today!</h2>
+  </header>
+
+  <div class="container">
+    <div class="car-section">
+      <img src="C:\Users\63917\Downloads\website\Mitsubishi_Mirage_G4_GLX_1.2_CVT_2026.jpg" alt="Mitsubishi Mirage G4" class="car-image">
+      <h3>Mitsubishi Mirage G4</h3>
+      <p>Price: <strong>2,500 PHP per day</strong></p>
+      <p>Details: 1.2L 3-cylinder engine, CVT automatic transmission, 5 seats, fuel-efficient, ideal for city drives.</p>
+    </div>
+
+    <form id="bookingForm">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="contact">Contact Number</label>
+      <input type="text" id="contact" name="contact" required>
+
+      <label for="pickupDate">Pick-up Date</label>
+      <input type="date" id="pickupDate" name="pickupDate" required>
+
+      <label for="dropoffDate">Drop-off Date</label>
+      <input type="date" id="dropoffDate" name="dropoffDate" required>
+
+      <label for="licenseUpload">Driver's License (Valid ID)</label>
+      <input type="file" id="licenseUpload" name="licenseUpload" accept="image/*,.pdf" required>
+
+      <label for="selfieUpload">Selfie with ID</label>
+      <input type="file" id="selfieUpload" name="selfieUpload" accept="image/*" required>
+
+      <label for="notes">Additional Notes or Requests</label>
+      <textarea id="notes" name="notes" rows="3"></textarea>
+
+      <button type="submit">Submit Booking</button>
+    </form>
+
+    <div id="responseMessage"></div>
+  </div>
+
+  <script>
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzwOu4PEtj84Vx3VaoIWW7qvAlt2SmXOWXxrMyyJeYsLTWHLae2ntOdWLCkACKMq6Hk/exec";
+
+    document.getElementById("bookingForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const form = e.target;
+      const responseMessage = document.getElementById("responseMessage");
+      responseMessage.innerHTML = "";
+
+      const validIdFile = form.licenseUpload.files[0];
+      const selfieFile = form.selfieUpload.files[0];
+
+      async function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const base64 = reader.result.split(",")[1];
+            resolve({ name: file.name, base64: base64, type: file.type });
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      }
+
+      const validIdData = validIdFile ? await fileToBase64(validIdFile) : null;
+      const selfieData = selfieFile ? await fileToBase64(selfieFile) : null;
+
+      const data = {
+        name: form.name.value,
+        email: form.email.value,
+        contact: form.contact.value,
+        carModel: "Mitsubishi Mirage G4",
+        pickupDate: form.pickupDate.value,
+        dropoffDate: form.dropoffDate.value,
+        validIdFile: validIdData,
+        selfieFile: selfieData,
+        notes: form.notes.value,
+        timestamp: new Date().toISOString()
+      };
+
+      try {
+        const res = await fetch(WEB_APP_URL, {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: { "Content-Type": "application/json" }
+        });
+
+        const result = await res.json();
+        if (result.result === "success") {
+          responseMessage.innerHTML = "<p class='success'>✅ Booking submitted successfully!</p>";
+          form.reset();
+        } else {
+          responseMessage.innerHTML = "<p class='error'>❌ Error submitting booking.</p>";
+        }
+      } catch (err) {
+        console.error(err);
+        responseMessage.innerHTML = "<p class='error'>⚠️ Connection failed. Please try again.</p>";
+      }
+    });
+  </script>
+
+</body>
+</html>
